@@ -37,7 +37,9 @@ def run(val=6, empty_list=[1,2,3,4,5,6]):
     frame_list.grid(row=1, rowspan=val-1, column=1, columnspan=val-1, padx=2, pady=2, sticky='se')
 
     def solve():
-        main_window.destroy()
+        # main_window.destroy()
+        Solve_Button.grid_forget()
+        New_Game_Button.grid_forget()
         import minipr
         list3 = []
         for i in range(val):

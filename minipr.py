@@ -1,3 +1,4 @@
+from random import sample
 from tkinter import *
 import time
 import threading
@@ -5,12 +6,31 @@ import threading
 def wait_func(timer=1):
     time.sleep(timer)
 
+global dist
+
 def run(list2=['A','B','C', 'D','E'], dist=[[0, 74, 4109, 3047, 2266],[74, 0, 4069, 2999, 2213],[4109, 4069, 0, 1172, 1972], [3047, 2999, 1172, 0, 816],[2266, 2213, 1972, 816, 0]],cities=[0,1,2,3,4,5,6]):
+    boolean = False
+    sample_copy = []
+    for i in dist:
+        extra_list = []
+        for j in i:
+            extra_list.append(j)
+        sample_copy.append(extra_list)
+    for j in dist:
+        flag = False
+        for i in j:
+            if i != 0:
+                flag = True
+                break
+        if flag:
+            break
+    else:
+        boolean = True
     root = Tk()
     length = len(list2)
     for i in range(length-1, 6):
         list2.append(None)
-
+                    
     myCanvas = Canvas(root,height=500,width=500)
     myCanvas.pack()    
 
@@ -108,22 +128,31 @@ def run(list2=['A','B','C', 'D','E'], dist=[[0, 74, 4109, 3047, 2266],[74, 0, 40
         y = "Path: "
         ans = myCanvas.create_text(250, 450,text=y) 
         prev = shortest[0]
+        count = 0
         for k in shortest:
-            myCanvas.itemconfig(matrix[prev][k],fill="blue", width=2)
-            myCanvas.itemconfig(matrix[k][prev],fill="blue", width=2)
-            wait_func(2)
+            if prev < k:
+                myCanvas.itemconfig(matrix[prev][k],fill="blue", width=2)
+                count += sample_copy[prev][k]
+            elif k < prev:
+                myCanvas.itemconfig(matrix[k][prev],fill="blue", width=2)
+                count += sample_copy[k][prev]
             myCanvas.itemconfig(list_of_nodes[k], fill='orange')
             wait_func(1)
             y += str(list2[k])
             prev = k
+            wait_func(2)
             myCanvas.itemconfig(ans, text=y)
             wait_func(1)
             y += "-->"
         y = y.rstrip("-->")
+        
         myCanvas.itemconfig(ans, text=y)
-        length_of_shortest_path = "Minimum Distance: " + str(path_len(shortest))
+        length_of_shortest_path = "Minimum Distance: " + str(count)
+        if boolean:
+            length_of_shortest_path = "Minimum Distance: 0"
         myCanvas.create_text(250,480,text=length_of_shortest_path)
 
+            
     root.after(1000,threading.Thread(target=draw).start())
     root.mainloop()
 
