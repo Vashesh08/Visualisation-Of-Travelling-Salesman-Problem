@@ -1,4 +1,3 @@
-from random import sample
 from tkinter import *
 import time
 import threading
