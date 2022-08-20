@@ -45,9 +45,11 @@ def run(val=6, empty_list=[1,2,3,4,5,6]):
         for i in range(val):
             temp = []
             for j in range(val):
+                # print(i,j,box_list[i][j].get(),box_list[j][i].get())
                 temp.append(box_list[i][j].get()+box_list[j][i].get())
-            list3.append(temp)    
-        minipr.run(list2=empty_list,dist=list3, cities=empty_list)
+            list3.append(temp)
+        # print("list3",list3)
+        minipr.run(nodes=empty_list,dist=list3, cities=empty_list)
 
 
     def new_game():
